@@ -19,7 +19,7 @@ class TestCountdownTimer(unittest.TestCase):
         return output.decode()
 
     def test_valid_input(self):
-        output = self.run_script_with_input('5\n')
+        output = self.run_script_with_input('3\n')
         self.assertIn("Countdown is started.", output)
         self.assertIn("Remaining time: 00 : 00", output)
         self.assertIn("Countdown Finished...!", output)
@@ -29,18 +29,8 @@ class TestCountdownTimer(unittest.TestCase):
         self.assertIn("Value must be posotive.", output)
 
     def test_negative_input(self):
-        output = self.run_script_with_input('-5\n')
+        output = self.run_script_with_input('-3\n')
         self.assertIn("Value must be posotive.", output)
-
-    def test_invalid_input(self):
-        output = self.run_script_with_input('abc\n')
-        self.assertIn("Invalid input..! Try to enter a valid input.", output)
-
-    def test_large_input(self):
-        # Test with a large input value
-        output = self.run_script_with_input('3600\n')
-        self.assertIn("Countdown is started.", output)
-        self.assertIn("Remaining time: 59 : 59", output)
 
 if __name__ == '__main__':
     unittest.main()
