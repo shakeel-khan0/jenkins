@@ -1,7 +1,7 @@
 import time
 
 try:
-    user_input = int(input("Enter time (in seconds): "))
+    user_input = 10  #int(input("Enter time (in seconds): "))
     if user_input <= 0:
         print("Value must be posotive.")
     else:
