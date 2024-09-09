@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from your_script import countdown  # Replace 'your_script' with the actual script name
+from countdown import countdown  # Replace 'your_script' with the actual script name
 
 class TestCountdown(unittest.TestCase):
 
