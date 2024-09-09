@@ -1,25 +1,46 @@
 import unittest
-from unittest.mock import patch
-from countdown import countdown  # Replace 'your_script' with the actual script name
+import subprocess
+import io
+import sys
+from contextlib import redirect_stdout
 
-class TestCountdown(unittest.TestCase):
+class TestCountdownTimer(unittest.TestCase):
 
-    @patch('builtins.print')
-    @patch('time.sleep', return_value=None)  # Mock time.sleep to speed up the test
-    def test_countdown_default_value(self, mock_sleep, mock_print):
-        countdown()  # Using the default value of 10 seconds
+    def run_script_with_input(self, user_input):
+        # Redirect stdout to capture print statements
+        f = io.StringIO()
+        with redirect_stdout(f):
+            # Run the script with subprocess
+            process = subprocess.Popen(['python3', 'countdown.py'], 
+                                       stdin=subprocess.PIPE, 
+                                       stdout=subprocess.PIPE, 
+                                       stderr=subprocess.PIPE)
+            output, _ = process.communicate(input=user_input.encode())
+        return output.decode()
 
-        # Check that the countdown started message is printed
-        mock_print.assert_any_call('Countdown is started.')
+    def test_valid_input(self):
+        output = self.run_script_with_input('5\n')
+        self.assertIn("Countdown is started.", output)
+        self.assertIn("Remaining time: 00 : 00", output)
+        self.assertIn("Countdown Finished...!", output)
 
-        # Verify that countdown messages from 10 to 0 are printed correctly
-        for i in range(10, -1, -1):
-            minutes = i // 60
-            seconds = i % 60
-            mock_print.assert_any_call(f'Remaining time: {minutes:02d} : {seconds:02d}', end='\r')
+    def test_zero_input(self):
+        output = self.run_script_with_input('0\n')
+        self.assertIn("Value must be posotive.", output)
 
-        # Check that the countdown finished message is printed
-        mock_print.assert_any_call('Countdown Finished!...!')
+    def test_negative_input(self):
+        output = self.run_script_with_input('-5\n')
+        self.assertIn("Value must be posotive.", output)
+
+    def test_invalid_input(self):
+        output = self.run_script_with_input('abc\n')
+        self.assertIn("Invalid input..! Try to enter a valid input.", output)
+
+    def test_large_input(self):
+        # Test with a large input value
+        output = self.run_script_with_input('3600\n')
+        self.assertIn("Countdown is started.", output)
+        self.assertIn("Remaining time: 59 : 59", output)
 
 if __name__ == '__main__':
     unittest.main()
