@@ -1,11 +1,10 @@
 import time
 
-try:
-    user_input = 10  #int(input("Enter time (in seconds): "))
+def countdown(user_input=10):
     if user_input <= 0:
-        print("Value must be posotive.")
+        print("Value must be positive.")
     else:
-        print("Countdown is started. ")
+        print("Countdown is started.")
         while user_input >= 0:
             minutes = user_input // 60
             seconds = user_input % 60
@@ -13,5 +12,6 @@ try:
             time.sleep(1)
             user_input -= 1
         print("Countdown Finished...!")
-except ValueError:
-    print("Invalid input..! Try to enter a valid input.")
+
+if __name__ == "__main__":
+    countdown()  # Calls the countdown function with the default value of 10
