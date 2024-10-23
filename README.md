@@ -13,4 +13,3 @@ This repository contains a Python program that runs a simple timer. By default, 
 - **Default 5-second timer**: A countdown timer that starts at 5 seconds, with the option to modify the duration.
 - **Automated testing**: Includes a test suite to verify the functionality of the timer.
 - **Jenkins CI/CD pipeline**: The Jenkinsfile allows easy integration with Jenkins for continuous integration and delivery.
-
